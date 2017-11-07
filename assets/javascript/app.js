@@ -1,9 +1,10 @@
 // Hide anything necessary with jQuery
 $(document).ready(function hideGuess() {
-  $(".letter").hide();
+  //Loads background with jQuery to smoothly reload it
+  //after game dynamically generates divs, thus avoiding formatting errors
+  // encountered previously with our flex box container
+  $(".container").css({"background-image": "url('https://wildcat510.github.io/images/zenkoan1.png')", "background-size": "cover", "background-repeat": "no-repeat"});
 });
-
-
 
 //Get empty divs to give data to
 var userGuess = document.getElementById("user-guess");
@@ -33,7 +34,8 @@ var dictionary = [
 
 //Stores a random word from our dictionary object inside a variable
 var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
-console.log(init);
+// console.log(init);
+
 
 //Function evaluates answer and does stuff.
 //This function is called and executed later in keyDetect()
@@ -41,14 +43,16 @@ console.log(init);
 function evalWord() {
   //If array currentword contains the key pressed, then do stuff.
   //Else, do more stuff
-  if (currentword.includes(event.key)) {
-    console.log("Letter in word, " + event.key);
-    $(".letter").show();
+  if (currentword.includes(event.key.toLowerCase())) {
+    // console.log("Letter in word, " + event.key);
+    $("#" + event.key).show();
+    console.log(currentword + " includes the letter " + event.key);
   } else {
-    console.log("Letter not in word, " + event.key);
-    $(".letter").hide();
-    //reduce number of tries left
+      // $("#" + event.key).hide();
+      $(".letter").hide();
+    console.log(currentword + " does not include the letter #" + event.key)
   }
+
 }
 
 //stores if the game has been initialized or not.
@@ -56,21 +60,24 @@ wordGen.called = 0;
 
 // Logs user's letter guess and updates it to userText
 document.onkeyup = function keyDetect(event) {
-//Checks if the game has been called, and calls it ONLY ONCE.
-//Later if a) user loses, or b) user wins, reset the value o wordGen()
-wordGen.called += 1;
-if(wordGen.called === 1){
-  wordGen();
-}
- //capture onkeyup event keycode
+  //Checks if the game has been called, and calls it ONLY ONCE.
+  //Later if a) user loses, or b) user wins, reset the value o wordGen()
+  wordGen.called += 1;
+  if (wordGen.called === 1) {
+    $(".letter").hide();
+    wordGen();
+  }
+
+  //capture onkeyup event keycode
   var charCode = event.keyCode;
   //allow only letters, and evalWord() only if letter is given
   if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8) {
-    console.log("letter");
+    // console.log("letter");
     userGuess.textContent = event.key.toLowerCase();
     evalWord();
   } else {
-    console.log("non-letter");
+    $(".letter").hide();
+    // console.log("non-letter");
   }
 
   //Problem: add guessed letters to an alreadyGuessed array
@@ -86,18 +93,17 @@ function wordGen() {
   for (i = 0; i < randWord.length; i++) {
     //Problem: we need to push a unique ID for each letter name in order to
     //reveal that letter when it is guessed
-    wordDisplay.push("<div class='box'><div class='letter' style='margin: 0 auto; text-align: center; padding-top: 30%;'>" + randWord.charAt(i) + "</div></div>");
+    wordDisplay.push("<div class='box'><div class = 'letter' id= '"+ randWord.charAt(i).toLowerCase() + "' style='margin: 0 auto; text-align: center; padding-top: 30%;'>" + randWord.charAt(i) + "</div></div>");
     currentword.push(randWord.charAt(i).toLowerCase());
+
   }
+// console.log(wordDisplay);
 
   //Removes commas from array and pushes wordDisplay to the DOM tree
   wordStage.innerHTML = wordDisplay.join("");
-  
-  //Uses jQuery to reload background image and avoid formatting problems with
-  //dynamically generated div elements
- $(".container").css("background-image", "url('https://wildcat510.github.io/images/zenkoan1.png')",
-  "background-repeat", "no-repeat", "background-size", "cover");
 
-
+  //Uses jQuery to reload background image AFTER dynamically generated divs
+  //to avoid formatting problems
+  $(".container").css({"background-image": "url('https://wildcat510.github.io/images/zenkoan1.png')", "background-size": "cover", "background-repeat": "no-repeat"});
 
 }

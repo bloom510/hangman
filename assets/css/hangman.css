@@ -1,20 +1,22 @@
 /*Write media queries at some point*/
-
+*{
+  box-sizing: border-box;
+}
 body {
   font-family: Helvetica;
 }
 
 .container {
   display: flex;
-  background: url("https://wildcat510.github.io/images/zenkoan1.png");
-  background-size: cover;
-  background-repeat: no-repeat;
+  /*background: url("https://wildcat510.github.io/images/zenkoan1.png");*/
+  /*background-size: cover;
+  background-repeat: no-repeat;*/
   flex-direction: column;
   margin: 5% auto;
-  width: 80%;
+  width: 100%;
   height: 100%;
   max-width: 760px;
-  max-height: 550px;
+  max-height: 700px;
   border: 2px solid black;
   padding: 25px;
   clear: both;
@@ -48,7 +50,7 @@ body {
 }
 
 #illustration {
-    background: rgba(110, 110, 110, .5); Gray
+  background: rgba(110, 110, 110, .5); 
   background-repeat: repeat-x;
   background-size: cover;
   display: inline-block;
