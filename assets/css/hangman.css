@@ -55,11 +55,11 @@ body {
 }
 
 .wordstage {
-  margin-left: 24%;
+  margin-left: 1%;
 }
 
 .box {
-  margin-top: 1%;
+  /*margin-top: 1%;*/
   background: white;
   display: block;
   padding: auto;
