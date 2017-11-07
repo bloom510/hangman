@@ -1,41 +1,60 @@
-body{
-    font-family: Helvetica;
+body {
+  font-family: Helvetica;
 }
-.container{
+
+.container {
   display: flex;
   background: url(../images/zenkoan1.png);
   background-size: cover;
   background-repeat: no-repeat;
   flex-direction: column;
   margin: 5% auto;
-  width:80%;
-  height:80%;
+  width: 80%;
+  height: 80%;
   max-width: 760px;
   max-height: 550px;
   border: 2px solid black;
   padding: 25px;
+  clear: both;
+  position: relative;
 }
 
-#stats{
-  position: inherit;
-  margin-left: 65%;
-  margin-bottom: 1%;
-  border: 2px solid black;
+#gameTitle {
+  position: absolute;
+  float: left;
+  font-family: Impact;
+  font-size: 40pt;
   color: white;
-  background: gray;
+}
+
+#stats {
+  position: inherit;
+  white-space: nowrap;
+  clear: none;
+  margin-left: 32%;
+  margin-top: 1%;
+  color: white;
+  /*background: rgba(110, 110, 10, 0.7);*/
   width: 35%;
 }
 
-#illustration{
+#user-guess, #wins, #remaining-guesses, #already-guessed {
+  display: inline-block;
+  padding-bottom: 2%;
+  margin-bottom: 3%;
+  padding-right: 25%;
+}
+
+#illustration {
   background: rgba(110, 110, 10, 0.7);
   display: inline-block;
-  height:400px;
+  height: 400px;
   width: 100%;
   border: 2px solid black;
   margin-bottom: 2%;
 }
 
-.wordstage{
+.wordstage {
   margin-left: 24%;
 }
 
