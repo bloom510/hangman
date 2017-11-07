@@ -19,17 +19,17 @@ var currentword = [];
 
 //Collection of words for game
 var dictionary = [
-  "Ajax",
-  "Wildcat",
-  "Mythic",
-  "Crystal",
-  "Fragrant",
-  "Petrichor",
-  "Rain",
-  "Winter",
-  "Freestyle",
-  "Gothic",
-  "Modulus"
+  "Rainfall",
+  // "Wildcat",
+  // "Mythic",
+  // "Crystal",
+  // "Fragrant",
+  // "Petrichor",
+  // "Rain",
+  // "Winter",
+  // "Freestyle",
+  // "Gothic",
+  // "Modulus"
 ];
 
 //Stores a random word from our dictionary object inside a variable
@@ -43,6 +43,9 @@ var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
 function evalWord() {
   //If array currentword contains the key pressed, then do stuff.
   //Else, do more stuff
+  //Includes method: currentword.includes(event.key.toLowerCase())
+//RGEX method currentword.join("").match(/e/g).join("")
+
   if (currentword.includes(event.key.toLowerCase())) {
     // console.log("Letter in word, " + event.key);
     $("#" + event.key).show();
