@@ -3,10 +3,12 @@ $(document).ready(function hideGuess() {
   $(".letter").hide();
 });
 
+
+
 //Get empty divs to give data to
 var userGuess = document.getElementById("user-guess");
 var wordStage = document.getElementById("stage");
-
+var init = false;
 //Array to hold HTML iterations of each letter to be rendered on the page
 var wordDisplay = [];
 
@@ -31,6 +33,7 @@ var dictionary = [
 
 //Stores a random word from our dictionary object inside a variable
 var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
+console.log(init);
 
 //Function evaluates answer and does stuff.
 //This function is called and executed later in keyDetect()
@@ -39,31 +42,37 @@ function evalWord() {
   //If array currentword contains the key pressed, then do stuff.
   //Else, do more stuff
   if (currentword.includes(event.key)) {
-    console.log("yes, " + event.key);
+    console.log("Letter in word, " + event.key);
     $(".letter").show();
   } else {
-    console.log("no, " + event.key);
+    console.log("Letter not in word, " + event.key);
     $(".letter").hide();
     //reduce number of tries left
   }
 }
 
+//stores if the game has been initialized or not.
+wordGen.called = 0;
+
 // Logs user's letter guess and updates it to userText
 document.onkeyup = function keyDetect(event) {
-
-  //capture onkeyup event keycode
+//Checks if the game has been called, and calls it ONLY ONCE.
+//Later if a) user loses, or b) user wins, reset the value o wordGen()
+wordGen.called += 1;
+if(wordGen.called === 1){
+  wordGen();
+}
+ //capture onkeyup event keycode
   var charCode = event.keyCode;
-
   //allow only letters, and evalWord() only if letter is given
   if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8) {
-    console.log("letters");
+    console.log("letter");
     userGuess.textContent = event.key.toLowerCase();
     evalWord();
-    return true;
   } else {
-    return false;
-    console.log("numbers");
+    console.log("non-letter");
   }
+
   //Problem: add guessed letters to an alreadyGuessed array
 }
 //end keypress evaluation function
@@ -71,7 +80,6 @@ document.onkeyup = function keyDetect(event) {
 //Function that generates words and processes them for
 //1) display on the DOM tree, and 2) evluation with JavaScript
 function wordGen() {
-
   //Loop through the randomly generated word and do two things:
   //1. Push HTML to array wordDisplay for HTML to be rendered on the page
   //2. Convert the randomly chosen word into individual letters and store in an array called "currentword"
@@ -84,7 +92,12 @@ function wordGen() {
 
   //Removes commas from array and pushes wordDisplay to the DOM tree
   wordStage.innerHTML = wordDisplay.join("");
+  
+  //Uses jQuery to reload background image and avoid formatting problems with
+  //dynamically generated div elements
+ $(".container").css("background-image", "url('https://wildcat510.github.io/images/zenkoan1.png')",
+  "background-repeat", "no-repeat", "background-size", "cover");
+
+
 
 }
-
-wordGen();

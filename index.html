@@ -20,9 +20,7 @@
 
       <div id="already-guessed">Already guessed:</div>
     </div>
-    <div id="illustration">
-
-    </div>
+    <div id="illustration"></div>
     <div id="stage" class="wordstage"></div>
   </div>
 
@@ -30,8 +28,20 @@
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Game -->
   <script src="./assets/javascript/app.js"></script>
+  <!-- Free ripples library! -->
+  <script src="./jquery-ripples/dist/jquery.ripples.js"></script>
+  <script>
+  $(document).ready(function () {
+    $('.container').ripples({
+        resolution: 512,
+        dropRadius: 20,
+        perturbance: 0.04,
+      });;
+  });
 
+    </script>
 </body>
 
 </html>
