@@ -44,14 +44,16 @@ function evalWord() {
   //If array currentword contains the key pressed, then do stuff.
   //Else, do more stuff
   //Includes method: currentword.includes(event.key.toLowerCase())
-//RGEX method currentword.join("").match(/e/g).join("")
 
   if (currentword.includes(event.key.toLowerCase())) {
     // console.log("Letter in word, " + event.key);
     $("#" + event.key).show();
+
+    //Show class if duplicate letter
+    // $("."+ event.key).show();
+
     console.log(currentword + " includes the letter " + event.key);
   } else {
-      // $("#" + event.key).hide();
       $(".letter").hide();
     console.log(currentword + " does not include the letter #" + event.key)
   }
@@ -63,7 +65,9 @@ wordGen.called = 0;
 
 // Logs user's letter guess and updates it to userText
 document.onkeyup = function keyDetect(event) {
+
   //Checks if the game has been called, and calls it ONLY ONCE.
+  //Hides letters if not called
   //Later if a) user loses, or b) user wins, reset the value o wordGen()
   wordGen.called += 1;
   if (wordGen.called === 1) {
@@ -80,7 +84,6 @@ document.onkeyup = function keyDetect(event) {
     evalWord();
   } else {
     $(".letter").hide();
-    // console.log("non-letter");
   }
 
   //Problem: add guessed letters to an alreadyGuessed array
@@ -90,17 +93,17 @@ document.onkeyup = function keyDetect(event) {
 //Function that generates words and processes them for
 //1) display on the DOM tree, and 2) evluation with JavaScript
 function wordGen() {
+
   //Loop through the randomly generated word and do two things:
   //1. Push HTML to array wordDisplay for HTML to be rendered on the page
-  //2. Convert the randomly chosen word into individual letters and store in an array called "currentword"
+//2. Convert the randomly chosen word into individual letters and store in an array called "currentword"
   for (i = 0; i < randWord.length; i++) {
-    //Problem: we need to push a unique ID for each letter name in order to
-    //reveal that letter when it is guessed
+      //If word includes duplicate letters, create a class for it
+      //Else, create with a class of letter and unique id
     wordDisplay.push("<div class='box'><div class = 'letter' id= '"+ randWord.charAt(i).toLowerCase() + "' style='margin: 0 auto; text-align: center; padding-top: 30%;'>" + randWord.charAt(i) + "</div></div>");
     currentword.push(randWord.charAt(i).toLowerCase());
 
   }
-// console.log(wordDisplay);
 
   //Removes commas from array and pushes wordDisplay to the DOM tree
   wordStage.innerHTML = wordDisplay.join("");
