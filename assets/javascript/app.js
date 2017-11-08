@@ -1,5 +1,6 @@
 // Hide anything necessary with jQuery
 $(document).ready(function hideGuess() {
+  $(".letters").hide();
   //Loads background with jQuery to smoothly reload it
   //after game dynamically generates divs, thus avoiding formatting errors
   // encountered previously with our flex box container
@@ -9,6 +10,11 @@ $(document).ready(function hideGuess() {
 //Get empty divs to give data to
 var userGuess = document.getElementById("user-guess");
 var wordStage = document.getElementById("stage");
+var remainingGuesses = document.getElementById("remaining-guesses");
+var guessCount = 20;
+var alreadyGuessed = [];
+var winCount = 0;
+
 var init = false;
 //Array to hold HTML iterations of each letter to be rendered on the page
 var wordDisplay = [];
@@ -37,43 +43,38 @@ var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
 // console.log(init);
 
 
-//Function evaluates answer and does stuff.
-//This function is called and executed later in keyDetect()
-//only if the key pressed is a letter.
-function evalWord() {
-  //If array currentword contains the key pressed, then do stuff.
-  //Else, do more stuff
-  //Includes method: currentword.includes(event.key.toLowerCase())
 
-  if (currentword.includes(event.key.toLowerCase())) {
-    // console.log("Letter in word, " + event.key);
-    $("#" + event.key).show();
-
-    //Show class if duplicate letter
-    // $("."+ event.key).show();
-
-    console.log(currentword + " includes the letter " + event.key);
-  } else {
-      $(".letter").hide();
-    console.log(currentword + " does not include the letter #" + event.key)
-  }
-
-}
 
 //stores if the game has been initialized or not.
 wordGen.called = 0;
 
 // Logs user's letter guess and updates it to userText
 document.onkeyup = function keyDetect(event) {
+  guessCount--;
 
-  //Checks if the game has been called, and calls it ONLY ONCE.
-  //Hides letters if not called
-  //Later if a) user loses, or b) user wins, reset the value o wordGen()
-  wordGen.called += 1;
-  if (wordGen.called === 1) {
-    $(".letter").hide();
-    wordGen();
+  //Function evaluates answer and does stuff.
+  //This function is called and executed later in keyDetect()
+  //only if the key pressed is a letter.
+  function evalWord() {
+    //using for statements with nested ifs to evaluate the word
+
+
+
+    // If array currentword contains the key pressed, then do stuff.
+    // Else, do more stuff
+    // Includes method: currentword.includes(event.key.toLowerCase())
+
+    if (currentword.includes(event.key.toLowerCase())) {
+
+      $("." + event.key).show();
+      winCount++;
+      document.getElementById("wins").innerHTML = "Wins: " + winCount;
+      remainingGuesses.innerHTML = "Remaining guesses: " + guessCount;
+      console.log(currentword + " includes the letter " + event.key);
+    }
+
   }
+
 
   //capture onkeyup event keycode
   var charCode = event.keyCode;
@@ -82,11 +83,11 @@ document.onkeyup = function keyDetect(event) {
     // console.log("letter");
     userGuess.textContent = event.key.toLowerCase();
     evalWord();
-  } else {
-    $(".letter").hide();
-  }
 
-  //Problem: add guessed letters to an alreadyGuessed array
+    alreadyGuessed.push(event.key);
+    document.getElementById("already-guessed").innerHTML = "Already guessed: "+ alreadyGuessed;
+
+  }
 }
 //end keypress evaluation function
 
@@ -100,7 +101,7 @@ function wordGen() {
   for (i = 0; i < randWord.length; i++) {
       //If word includes duplicate letters, create a class for it
       //Else, create with a class of letter and unique id
-    wordDisplay.push("<div class='box'><div class = 'letter' id= '"+ randWord.charAt(i).toLowerCase() + "' style='margin: 0 auto; text-align: center; padding-top: 30%;'>" + randWord.charAt(i) + "</div></div>");
+    wordDisplay.push("<div class='box'><div class = '"+ randWord.charAt(i).toLowerCase() +" letters' style='margin: 0 auto; text-align: center; padding-top: 30%;'>" + randWord.charAt(i) + "</div></div>");
     currentword.push(randWord.charAt(i).toLowerCase());
 
   }
@@ -113,3 +114,5 @@ function wordGen() {
   $(".container").css({"background-image": "url('https://wildcat510.github.io/images/zenkoan1.png')", "background-size": "cover", "background-repeat": "no-repeat"});
 
 }
+
+wordGen();

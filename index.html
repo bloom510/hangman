@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
   <div class="container">
 
     <div id="gameTitle">HANGMAN</div>
@@ -28,13 +29,18 @@
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   <!-- Free ripples library! -->
   <script src="./jquery-ripples/dist/jquery.ripples.js"></script>
-  <script>
-  $(document).ready(function () {
-    $('.container').ripples();
-  });
-    </script>
+
+<script>
+$('.container').ripples({
+  resolution: 256,
+  dropRadius: .003,
+  perturbance: 100,
+});
+</script>
+
   <!-- Game -->
   <script src="./assets/javascript/app.js"></script>
 
