@@ -1,3 +1,5 @@
+//Developers: check the console to cheat... I mean debug!
+
 // Hide anything necessary with jQuery
 $(document).ready(function() {
   $(".letters").hide();
@@ -10,26 +12,23 @@ $(document).ready(function() {
 	dropRadius: 20,
 	perturbance: 0.04,
 });
-
-
 });
 
 //Get empty divs to give data to
 var userGuess = document.getElementById("user-guess");
+//wordStage recieves HTML to render to the page for randomly generated word
 var wordStage = document.getElementById("stage");
+//Number of guesses
 var guessCount = 20;
-var alreadyGuessed = [];
+//Wins
 var winCount = 0;
-// var rain = document.getElementById("myAudio");
-
-
+//Letters already guessed
+var alreadyGuessed = [];
 //Array to hold HTML iterations of each letter to be rendered on the page
 var wordDisplay = [];
-
 //Array which will accept randomly generated words split into 1 letter per index
 //for later evaluation against the keystroke event
 var currentword = [];
-
 //Collection of words for game
 var dictionary = [
   "rainfall",
@@ -104,8 +103,8 @@ var dictionary = [
 
 //Stores a random word from our dictionary object inside a variable
 var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
-// console.log(init);
 
+//Soothing rain background
 function rain(){
   var x = document.createElement("AUDIO");
      x.setAttribute("src","./assets/sound/rain.mp3");
@@ -114,23 +113,55 @@ function rain(){
       x.volume = "0.1";
       document.body.appendChild(x);
 }
+
+//Insert thunder function here:
+
+
 //=============================================================================
 /*if letter has already been guessed, do not log to wins. do nothing!
 if number of wins is equal to number of letters in word, display win alert and
 cue thunder!*/
 //=============================================================================
+
+document.onkeyup = function initGame
+ //add 1 to init when key is pressed
+  var init = 0;
+  init++;
+
+//if init is more than or equal to 1, hide instructions and initialize game
+  if(init >= 1){
+    $("#illustration").css({
+      "background": "none",
+    });
+    $("#instructions").hide();
+    $(".box").show();
+    keyDetect();
+    //set init back to zero to keep in range for wins or losses
+    init = 0;
+  }
+  //troubleshoot
+console.log(init);
+}
+
 // Logs user's letter guess and updates it to userText
-document.onkeyup = function keyDetect(event) {
-  $("#illustration").css({
-    "background": "none",
-  });
-  $("#instructions").hide();
-  $(".box").show();
+// document.onkeyup = function
+function keyDetect() {
+document.onkeyup = function game(){
+
+  //Removes instructions and initializes game
+
   guessCount--;
-  /*Function evaluates answer and does stuff.
+
+  /*Function evaluates answer updates the corresponding fields.
     This function is called and executed later in keyDetect()
     only if the key pressed is a letter.*/
   function evalWord() {
+    //Removes instructions and initializes game
+    $("#illustration").css({
+      "background": "none",
+    });
+    $("#instructions").hide();
+    $(".box").show();
 
     // If array currentword contains the key pressed, then do stuff.
     // Else, do more stuff
@@ -167,6 +198,7 @@ document.onkeyup = function keyDetect(event) {
     document.getElementById("remaining-guesses").innerHTML = guessCount;
   }
 }
+}
 //end keypress evaluation function
 
 //Function that generates words and processes them for
@@ -182,7 +214,7 @@ function wordGen() {
     //Else, create with a class of letter and unique id
     wordDisplay.push("<div class='box'><div class = '" + randWord.charAt(i).toLowerCase() + " letters' style='margin: 0 auto; text-align: center; padding-top: 30%;'>" + randWord.charAt(i) + "</div></div>");
     currentword.push(randWord.charAt(i).toLowerCase());
-    //appendChild()? createElement()?
+    //could this be achieved with neater code using JS methods like appendChild()? createElement()?
 
   }
   //Removes commas from array and pushes wordDisplay contents to the DOM tree
