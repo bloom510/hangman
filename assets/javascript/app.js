@@ -1,9 +1,14 @@
 //Developers: check the console to cheat... I mean debug!
-
+//Ideas: Allow users to donate to causes for water, make media queries for mobile devices
 // Hide anything necessary with jQuery
 $(document).ready(function() {
   $(".letters").hide();
   $(".box").hide();
+  $("#instructions").hide();
+  $("#illustration").hide();
+  $("#stats").hide();
+  $("#illustration").fadeIn(3000);
+$("#instructions").fadeIn(3000);
   rain();
 
   //load ripples.js
@@ -117,35 +122,38 @@ function rain(){
 //Insert thunder function here:
 
 
-//=============================================================================
+//======================================================================================
 /*if letter has already been guessed, do not log to wins. do nothing!
 if number of wins is equal to number of letters in word, display win alert and
-cue thunder!*/
-//=============================================================================
+cue thunder!*/ /*if guesses run out, reveal word with remaining hidden letters in red*/
+//======================================================================================
 
-document.onkeyup = function initGame
- //add 1 to init when key is pressed
   var init = 0;
+  console.log(init);
+
+document.onkeyup = function initGame(){
+ //add 1 to init when key is pressed
   init++;
 
 //if init is more than or equal to 1, hide instructions and initialize game
   if(init >= 1){
+    $("#instructions").hide();
     $("#illustration").css({
       "background": "none",
     });
-    $("#instructions").hide();
-    $(".box").show();
+    $(".box").fadeIn(1500);
+    $("#stats").fadeIn(1500);
     keyDetect();
-    //set init back to zero to keep in range for wins or losses
+    //set init back to zero to keep in a workable range for wins or losses
     init = 0;
   }
-  //troubleshoot
-console.log(init);
+
 }
 
-// Logs user's letter guess and updates it to userText
-// document.onkeyup = function
+
+//keyDetect() evaluates characters for letters, and calls game()
 function keyDetect() {
+  //game() generates and evaluates randomly generated words
 document.onkeyup = function game(){
 
   //Removes instructions and initializes game
@@ -171,7 +179,7 @@ document.onkeyup = function game(){
       //add 1 to winCount
       winCount++;
       //update wins
-      document.getElementById("wins").innerHTML = "Wins: " + winCount;
+      document.getElementById("wins").innerHTML = "Correct: " + winCount;
       //update guessCount
       document.getElementById("remaining-guesses").innerHTML = guessCount;
       //troubleshoot
@@ -191,6 +199,7 @@ document.onkeyup = function game(){
     // console.log("letter");
     userGuess.textContent = event.key.toLowerCase();
     evalWord();
+    //setTimeout(evalWord(),1500); is a good debugging option to check for interference 
 
     //move this outside and put in if statement for preventing guessing the same letter again
     alreadyGuessed.push(event.key);
