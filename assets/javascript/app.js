@@ -1,25 +1,17 @@
 // Hide anything necessary with jQuery
 $(document).ready(function() {
   $(".letters").hide();
+  $(".box").hide();
   rain();
-  // $("#illustration").css({
-  //   "background-image": "url('./assets/images/bayview.jpg')",
-  //   "background-size": "cover",
-  //   "background-repeat": "no-repeat",
-  //   "opacity": "0.5"
-  // });
-
-  /*Loads background with jQuery to smoothly reload it
-    after game dynamically generates divs, thus avoiding formatting errors
-    encountered previously with our flex box container*/
-  // $(".container").css({
-  //   "background-image": "url('https://wildcat510.github.io/images/zenkoan1.png')",
-  //   "background-size": "cover",
-  //   "background-repeat": "no-repeat"
-  // });
 
   //load ripples.js
-  $('.container').ripples();
+  $('.container').ripples({
+  resolution: 512,
+	dropRadius: 20,
+	perturbance: 0.04,
+});
+
+
 });
 
 //Get empty divs to give data to
@@ -40,17 +32,74 @@ var currentword = [];
 
 //Collection of words for game
 var dictionary = [
-  "Rainfall",
-  "Wildcat",
-  "Mythic",
-  "Crystal",
-  "Fragrant",
-  "Petrichor",
-  "Rain",
-  "Winter",
-  "Freestyle",
-  "Gothic",
-  "Modulus"
+  "rainfall",
+  "fragrant",
+  "petrichor",
+  "rain",
+  "winter",
+  "aqua",
+  "aqueduct",
+  "well",
+  "basin",
+  "blizzard",
+  "boil",
+  "brine",
+  "brook",
+  "canal",
+  "channel",
+  "cloudburst",
+  "condensation",
+  "confluence",
+  "course",
+  "damp",
+  "depth",
+  "dew",
+  "downpour",
+  "drain",
+  "drenched",
+  "drinkable",
+  "drizzle",
+  "drop",
+  "effluent",
+  "evaporation",
+  "flood",
+  "flow",
+  "fluvial",
+  "frost",
+  "frozen",
+  "geyser",
+  "hail",
+  "headwaters",
+  "humidity",
+  "hurricane",
+  "hydrology",
+  "hydropower",
+  "ice",
+  "crystals",
+  "irrigation",
+  "lake",
+  "moisture",
+  "monsoon",
+  "ocean",
+  "pond",
+  "pool",
+  "precipitation",
+  "puddle",
+  "runoff",
+  "river",
+  "snowfall",
+  "snow",
+  "spray",
+  "sprinkler",
+  "stream",
+  "swamp",
+  "tide",
+  "typhoon",
+  "vapor",
+  "waterfront",
+  "watershed",
+  "waves",
+  "wetlands",
 ];
 
 //Stores a random word from our dictionary object inside a variable
@@ -65,14 +114,19 @@ function rain(){
       x.volume = "0.1";
       document.body.appendChild(x);
 }
-
+//=============================================================================
 /*if letter has already been guessed, do not log to wins. do nothing!
-if number of wins is equal to number of letters in word, display win alert!*/
-
+if number of wins is equal to number of letters in word, display win alert and
+cue thunder!*/
+//=============================================================================
 // Logs user's letter guess and updates it to userText
 document.onkeyup = function keyDetect(event) {
+  $("#illustration").css({
+    "background": "none",
+  });
+  $("#instructions").hide();
+  $(".box").show();
   guessCount--;
-
   /*Function evaluates answer and does stuff.
     This function is called and executed later in keyDetect()
     only if the key pressed is a letter.*/
