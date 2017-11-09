@@ -1,10 +1,24 @@
 // Hide anything necessary with jQuery
-$(document).ready(function () {
+$(document).ready(function() {
   $(".letters").hide();
+  rain();
+  // $("#illustration").css({
+  //   "background-image": "url('./assets/images/bayview.jpg')",
+  //   "background-size": "cover",
+  //   "background-repeat": "no-repeat",
+  //   "opacity": "0.5"
+  // });
+
   /*Loads background with jQuery to smoothly reload it
     after game dynamically generates divs, thus avoiding formatting errors
     encountered previously with our flex box container*/
-  $(".container").css({"background-image": "url('https://wildcat510.github.io/images/zenkoan1.png')", "background-size": "cover", "background-repeat": "no-repeat"});
+  // $(".container").css({
+  //   "background-image": "url('https://wildcat510.github.io/images/zenkoan1.png')",
+  //   "background-size": "cover",
+  //   "background-repeat": "no-repeat"
+  // });
+
+  //load ripples.js
   $('.container').ripples();
 });
 
@@ -14,6 +28,7 @@ var wordStage = document.getElementById("stage");
 var guessCount = 20;
 var alreadyGuessed = [];
 var winCount = 0;
+// var rain = document.getElementById("myAudio");
 
 
 //Array to hold HTML iterations of each letter to be rendered on the page
@@ -41,6 +56,15 @@ var dictionary = [
 //Stores a random word from our dictionary object inside a variable
 var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
 // console.log(init);
+
+function rain(){
+  var x = document.createElement("AUDIO");
+     x.setAttribute("src","./assets/sound/rain.mp3");
+      x.setAttribute("autoplay", "autoplay");
+      x.setAttribute("loop", "loop");
+      x.volume = "0.1";
+      document.body.appendChild(x);
+}
 
 /*if letter has already been guessed, do not log to wins. do nothing!
 if number of wins is equal to number of letters in word, display win alert!*/
@@ -86,7 +110,7 @@ document.onkeyup = function keyDetect(event) {
     //move this outside and put in if statement for preventing guessing the same letter again
     alreadyGuessed.push(event.key);
     document.getElementById("already-guessed").innerHTML = alreadyGuessed;
-
+    document.getElementById("remaining-guesses").innerHTML = guessCount;
   }
 }
 //end keypress evaluation function
@@ -97,12 +121,12 @@ function wordGen() {
 
   //Loop through the randomly generated word and do two things:
   //1. Push HTML to array wordDisplay for HTML to be rendered on the page
-//2. Convert the randomly chosen word into individual letters and store in an array called "currentword"
+  //2. Convert the randomly chosen word into individual letters and store in an array called "currentword"
   for (i = 0; i < randWord.length; i++) {
 
-      //If word includes duplicate letters, create a class for it
-      //Else, create with a class of letter and unique id
-    wordDisplay.push("<div class='box'><div class = '"+ randWord.charAt(i).toLowerCase() +" letters' style='margin: 0 auto; text-align: center; padding-top: 30%;'>" + randWord.charAt(i) + "</div></div>");
+    //If word includes duplicate letters, create a class for it
+    //Else, create with a class of letter and unique id
+    wordDisplay.push("<div class='box'><div class = '" + randWord.charAt(i).toLowerCase() + " letters' style='margin: 0 auto; text-align: center; padding-top: 30%;'>" + randWord.charAt(i) + "</div></div>");
     currentword.push(randWord.charAt(i).toLowerCase());
     //appendChild()? createElement()?
 
@@ -110,9 +134,6 @@ function wordGen() {
   //Removes commas from array and pushes wordDisplay contents to the DOM tree
   wordStage.innerHTML = wordDisplay.join("");
 
-  //Uses jQuery to reload background image AFTER dynamically generated divs
-  //to avoid formatting problems
-  // $(".container").css({"background-image": "url('https://wildcat510.github.io/images/zenkoan1.png')", "background-size": "cover", "background-repeat": "no-repeat"});
 
 }
 
