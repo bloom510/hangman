@@ -1,16 +1,8 @@
 //Developers: check the console to cheat... I mean debug!
 //Ideas: Allow users to donate to causes for water, make media queries for mobile devices
 // Hide anything necessary with jQuery
-$(document).ready(function() {
-  $(".letters").hide();
-  $(".box").hide();
-  $("#instructions").hide();
-  $("#illustration").hide();
-  $("#stats").hide();
-  $("#illustration").fadeIn(3000);
-$("#instructions").fadeIn(3000);
-  rain();
-
+$(document).ready(function () {
+startScreen();
   //load ripples.js
   $('.container').ripples({
   resolution: 512,
@@ -18,6 +10,29 @@ $("#instructions").fadeIn(3000);
 	perturbance: 0.04,
 });
 });
+
+function startScreen(){
+
+alreadyGuessed = [];
+
+  $(".letters").hide();
+  $(".box").hide();
+  $("#loseMessage").hide();
+  $("#instructions").hide();
+  $("#illustration").hide();
+  $("#stats").hide();
+  $("#illustration").fadeIn(3000);
+$("#instructions").fadeIn(3000);
+  rain();
+  //update wins
+  document.getElementById("wins").innerHTML = "Correct: " + winCount;
+  //update guessCount
+  document.getElementById("remaining-guesses").innerHTML = guessCount;
+  //
+  document.getElementById("already-guessed").innerHTML = alreadyGuessed;
+
+document.onkeyup = setTimeout(function () {document.keyup = initGame();}, 5000);
+}
 
 //Get empty divs to give data to
 var userGuess = document.getElementById("user-guess");
@@ -120,6 +135,29 @@ function rain(){
 }
 
 //Insert thunder function here:
+function thunder(){
+  var y = document.createElement("AUDIO");
+     y.setAttribute("src","./assets/sound/thunder.mp3");
+      y.setAttribute("autoplay", "autoplay");
+      y.loop = false;
+      y.volume = "0.6";
+      document.body.appendChild(y);
+}
+
+function checkGuess(){
+//if user runs out of guesses, reset guessed letters
+    if(guessCount === 1){
+      alreadyGuessed = [];
+        console.log(alreadyGuessed);
+        $("#illustration").css({
+          "background": "rgb(110, 110, 110)",
+        });
+        winCount = 0;
+        guessCount = 21;
+        startScreen();
+      }
+
+    }
 
 
 //======================================================================================
@@ -129,9 +167,9 @@ cue thunder!*/ /*if guesses run out, reveal word with remaining hidden letters i
 //======================================================================================
 
   var init = 0;
-  console.log(init);
 
-document.onkeyup = function initGame(){
+
+function initGame(){
  //add 1 to init when key is pressed
   init++;
 
@@ -144,69 +182,89 @@ document.onkeyup = function initGame(){
     $(".box").fadeIn(1500);
     $("#stats").fadeIn(1500);
     keyDetect();
+    thunder();
     //set init back to zero to keep in a workable range for wins or losses
     init = 0;
   }
+
 
 }
 
 
 //keyDetect() evaluates characters for letters, and calls game()
 function keyDetect() {
+
   //game() generates and evaluates randomly generated words
 document.onkeyup = function game(){
 
-  //Removes instructions and initializes game
-
-  guessCount--;
 
   /*Function evaluates answer updates the corresponding fields.
     This function is called and executed later in keyDetect()
     only if the key pressed is a letter.*/
   function evalWord() {
-    //Removes instructions and initializes game
-    $("#illustration").css({
-      "background": "none",
-    });
-    $("#instructions").hide();
-    $(".box").show();
 
-    // If array currentword contains the key pressed, then do stuff.
+    //converts key pressed to lowercase for evaluation
+    // (function() { String.fromCharCode(event.keyCode).toLowerCase()});
+
+    //troubleshoot case of letters returned
+      console.log(String.fromCharCode(event.keyCode).toLowerCase());
+
+    // If array currentword contains the key pressed and not already guessed
     // Else, do more stuff
-    if (currentword.includes(event.key.toLowerCase())) {
-      //reveal that letter
-      $("." + event.key).show();
+    if (currentword.includes(event.key.toLowerCase()) && !alreadyGuessed.includes(event.key.toLowerCase())) {
+      $("." + event.key.toLowerCase()).show();
       //add 1 to winCount
       winCount++;
+      //subtract from guesses
+      guessCount--;
+      //reveal that letter
+      //move this outside and put in if statement for preventing guessing the same letter again
+      alreadyGuessed.push(event.key);
       //update wins
       document.getElementById("wins").innerHTML = "Correct: " + winCount;
       //update guessCount
       document.getElementById("remaining-guesses").innerHTML = guessCount;
+      //update letter Guessed
+      userGuess.textContent = event.key.toLowerCase();
       //troubleshoot
       console.log(currentword.join("") + " includes the letter " + event.key);
-    } else {
+
+    } else if (!currentword.includes(event.key.toLowerCase()) && !alreadyGuessed.includes(event.key.toLowerCase())) {
+      //subtract from guesses
+      guessCount--;
+      //move this outside and put in if statement for preventing guessing the same letter again
+      alreadyGuessed.push(event.key);
+      //update wins
+      document.getElementById("wins").innerHTML = "Correct: " + winCount;
+      //update guessCount
+      document.getElementById("remaining-guesses").innerHTML = guessCount;
+      //update letter Guessed
+      userGuess.textContent = event.key.toLowerCase();
       //troubleshoot
       console.log(currentword.join("") + " does not include the letter " + event.key);
     }
 
-  }
 
+  }
 
   //capture onkeyup event keycode
   var charCode = event.keyCode;
+
+
   //allow only letters, and evalWord() only if letter is given
   if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8) {
+      document.getElementById("already-guessed").innerHTML = alreadyGuessed;
+    checkGuess();
     // console.log("letter");
-    userGuess.textContent = event.key.toLowerCase();
     evalWord();
-    //setTimeout(evalWord(),1500); is a good debugging option to check for interference 
+    //setTimeout(evalWord(),1500); is a good debugging option to check for interference
 
-    //move this outside and put in if statement for preventing guessing the same letter again
-    alreadyGuessed.push(event.key);
-    document.getElementById("already-guessed").innerHTML = alreadyGuessed;
-    document.getElementById("remaining-guesses").innerHTML = guessCount;
+
   }
+
+
 }
+
 }
 //end keypress evaluation function
 

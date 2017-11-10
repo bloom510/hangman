@@ -10,9 +10,11 @@
 <body>
 
   <div class="container">
-      <!-- The beautiful texture achieved on this div was done by superimposing background color rgb(110, 110, 110);
-    over a larger image with an opacity of 4 using the CSS ::after pseudoclass. The different colors from both
-    the illustration div and the container div bring out image in different places -->
+
+      <!-- The beautiful texture achieved on this div was done by superimposing a a larger image overlay with
+      an opacity of 4 using the CSS ::after pseudoclass over background color rgb(110, 110, 110).
+      Notice closely, the image never disappears on keyup! The rgb gray disappears, and the different colors in
+      the content area bring out the image in a more subtle way -->
     <div id="illustration">
       <div id="gameTitle">h20de</div>
       <div id="stats">
@@ -30,6 +32,7 @@
       During the game you can relax, swirl your mouse around the water, and let your mind wander. There are many words encompassing water. <br><br>  Residing in peaceful thought and contemplation,
       <br> Press any key to continue.
       </div>
+      <div id="loseMessage">You've lost. Press any key to play again.</div>
     </div>
     <div id="stage" class="wordstage"></div>
   </div>
