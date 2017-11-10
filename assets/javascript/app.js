@@ -151,7 +151,7 @@ function checkGuess() {
 
   //==========================================================================================
   //   if guesses run out, reveal word with remaining hidden letters in red
-  //   then, reset letters, bring back and move to start screen with previous background color
+  //   then, reset letters, bring back start screen with previous background color
   //==========================================================================================
   if (guessCount === 1) {
     alreadyGuessed = [];
@@ -166,9 +166,8 @@ function checkGuess() {
 
 
 }
-
+//counter for game initialization
 var init = 0;
-
 
 function initGame() {
 
