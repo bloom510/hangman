@@ -1,5 +1,6 @@
 //Developers: check the console to cheat... I mean debug!
 //Ideas: Allow users to donate to causes for water, make media queries for mobile devices
+//Convert winCount to correctCount, and actual win count for every word guessed right
 // Hide anything necessary with jQuery
 $(document).ready(function() {
   startScreen();
@@ -10,6 +11,18 @@ $(document).ready(function() {
     perturbance: 0.04,
   });
 });
+
+
+//Number of guesses
+var guessCount = 20;
+//Wins
+var winCount = 0;
+//Letters already guessed
+var alreadyGuessed = [];
+//Array which will accept randomly generated words split into 1 letter per index
+//for later evaluation against the keystroke event
+var currentword = [];
+//Collection of words for game
 
 function startScreen() {
 
@@ -32,16 +45,12 @@ function startScreen() {
   //
   document.getElementById("already-guessed").innerHTML = alreadyGuessed;
 
-  setTimeout(function() {initGame();}, 5000);
+  setTimeout(function() {initGame();}, 3000);
   // console.log(init);
 }
 
 function winScreen() {
 
-  $(".letters").hide();
-  $(".box").hide();
-  //Number of guesses
-  guessCount = 20;
   //Wins
   winCount = 0;
   alreadyGuessed = [];
@@ -64,16 +73,6 @@ function winScreen() {
   setTimeout(function() {initGame();}, 5000);
   // console.log(init);
 }
-//Number of guesses
-var guessCount = 20;
-//Wins
-var winCount = 0;
-//Letters already guessed
-var alreadyGuessed = [];
-//Array which will accept randomly generated words split into 1 letter per index
-//for later evaluation against the keystroke event
-var currentword = [];
-//Collection of words for game
 
 //Soothing rain background
 function rain() {
@@ -101,15 +100,15 @@ function checkGuess() {
   //   if guesses run out, reveal word with remaining hidden letters in red
   //   then, reset letters, bring back start screen with previous background color
   //==========================================================================================
-  if (guessCount === 1) {
+  if (guessCount === 0) {
     alreadyGuessed = [];
     console.log(alreadyGuessed);
     $("#illustration").css({
       "background": "rgb(110, 110, 110)",
     });
     winCount = 0;
-    guessCount = 21;
-    startScreen();
+    guessCount = 20;
+    startScreen();//loseScreen()
   }
 
 
@@ -118,6 +117,7 @@ function checkGuess() {
 var init = false;
 
 function initGame() {
+  guessCount = 20;
   currentword = [];
   wordGen();
 //Good example of closure. 3 levels of scope. 1)global, 2) outer, 3) inner.
@@ -150,9 +150,9 @@ function keyDetect() {
 
   //game() generates and evaluates randomly generated words
   document.onkeyup = function game() {
-    checkGuess();
 
-    /*Function evaluates answer updates the corresponding fields.
+
+    /*Function evaluates answer and updates the corresponding fields.
       This function is called and executed later in keyDetect()
       only if the key pressed is a letter.*/
     function evalWord() {
@@ -162,7 +162,7 @@ function keyDetect() {
       // (function() { String.fromCharCode(event.keyCode).toLowerCase()});
 
       //troubleshoot case of letters returned
-      console.log(String.fromCharCode(event.keyCode).toLowerCase());
+      // console.log(String.fromCharCode(event.keyCode).toLowerCase());
 
       // If array currentword contains the key pressed and not already guessed
       // Else, do more stuff
@@ -174,6 +174,7 @@ function keyDetect() {
         console.log(winCount);
         //subtract from guesses
         guessCount--;
+        console.log(guessCount);
         //update array of already-guessed letters
         alreadyGuessed.push(event.key);
         //update wins
@@ -189,6 +190,7 @@ function keyDetect() {
 
         //subtract from guesses
         guessCount--;
+        console.log(guessCount);
         //move this outside and put in if statement for preventing guessing the same letter again
         alreadyGuessed.push(event.key);
         //update wins
@@ -212,7 +214,7 @@ function keyDetect() {
         });
           winScreen();
       }
-
+    checkGuess();
 
     }
 
@@ -246,72 +248,67 @@ function wordGen() {
   var dictionary = [
     "rainfall",
     "fragrant",
-    "petrichor"
-    // "rain",
-    // "winter",
-    // "aqua",
-    // "aqueduct",
-    // "well",
-    // "basin",
-    // "blizzard",
-    // "boil",
-    // "brine",
-    // "brook",
-    // "canal",
-    // "channel",
-    // "cloudburst",
-    // "condensation",
-    // "confluence",
-    // "course",
-    // "damp",
-    // "depth",
-    // "dew",
-    // "downpour",
-    // "drain",
-    // "drenched",
-    // "drinkable",
-    // "drizzle",
-    // "drop",
-    // "effluent",
-    // "evaporation",
-    // "flood",
-    // "flow",
-    // "fluvial",
-    // "frost",
-    // "frozen",
-    // "geyser",
-    // "hail",
-    // "headwaters",
-    // "humidity",
-    // "hurricane",
-    // "hydrology",
-    // "hydropower",
-    // "ice",
-    // "crystals",
-    // "irrigation",
-    // "lake",
-    // "moisture",
-    // "monsoon",
-    // "ocean",
-    // "pond",
-    // "pool",
-    // "precipitation",
-    // "puddle",
-    // "runoff",
-    // "river",
-    // "snowfall",
-    // "snow",
-    // "spray",
-    // "sprinkler",
-    // "stream",
-    // "swamp",
-    // "tide",
-    // "typhoon",
-    // "vapor",
-    // "waterfront",
-    // "watershed",
-    // "waves",
-    // "wetlands",
+    "petrichor",
+    "rain",
+    "winter",
+    "aqua",
+    "aqueduct",
+    "well",
+    "basin",
+    "blizzard",
+    "boil",
+    "brine",
+    "canal",
+    "channel",
+    "cloudburst",
+    "condensation",
+    "damp",
+    "depth",
+    "dew",
+    "downpour",
+    "drain",
+    "drenched",
+    "drinkable",
+    "drizzle",
+    "drop",
+    "evaporation",
+    "flood",
+    "flow",
+    "frost",
+    "frozen",
+    "geyser",
+    "hail",
+    "headwaters",
+    "humidity",
+    "hurricane",
+    "hydrology",
+    "hydropower",
+    "ice",
+    "crystals",
+    "irrigation",
+    "lake",
+    "moisture",
+    "monsoon",
+    "ocean",
+    "pond",
+    "pool",
+    "precipitation",
+    "puddle",
+    "runoff",
+    "river",
+    "snowfall",
+    "snow",
+    "spray",
+    "sprinkler",
+    "stream",
+    "swamp",
+    "tide",
+    "typhoon",
+    "vapor",
+    "waterfront",
+    "watershed",
+    "waves",
+    "wetlands",
   ];
   //Stores a random word from our dictionary object inside a variable
   var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
