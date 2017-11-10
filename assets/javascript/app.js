@@ -79,6 +79,7 @@ function loseScreen() {
   letterCount = 0;
   guessCount = 20;
   alreadyGuessed = [];
+  //show hidden letters in red
   $(".letters:hidden").css({
     "color": "red",
   }).show();
@@ -131,6 +132,7 @@ function checkGuess() {
     $("#illustration").css({
       "background": "rgb(110, 110, 110)",
     });
+
     letterCount = 0;
     guessCount = 20;
     loseScreen();//loseScreen()
