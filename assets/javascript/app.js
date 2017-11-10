@@ -1,6 +1,6 @@
 //Developers: check the console to cheat... I mean debug!
 //Ideas: Allow users to donate to causes for water, make media queries for mobile devices
-//Convert winCount to correctCount, and actual win count for every word guessed right
+//Convert letterCount to correctCount, and actual win count for every word guessed right
 // Hide anything necessary with jQuery
 $(document).ready(function() {
   startScreen();
@@ -15,7 +15,9 @@ $(document).ready(function() {
 
 //Number of guesses
 var guessCount = 20;
-//Wins
+//correct letters
+var letterCount = 0;
+//overall wins
 var winCount = 0;
 //Letters already guessed
 var alreadyGuessed = [];
@@ -39,9 +41,9 @@ function startScreen() {
   $("#instructions").fadeIn(3000);
   rain();
   //update wins
-  document.getElementById("wins").innerHTML = "Correct: " + winCount;
+  document.getElementById("correctLetters").innerHTML = "Correct: " + letterCount;
   //update guessCount
-  document.getElementById("remaining-guesses").innerHTML = guessCount;
+  document.getElementById("remaining-guesses").innerHTML = "Remaining Guesses: "+ guessCount;
   //
   document.getElementById("already-guessed").innerHTML = alreadyGuessed;
 
@@ -51,8 +53,8 @@ function startScreen() {
 
 function winScreen() {
 
-  //Wins
-  winCount = 0;
+  letterCount = 0;
+  guessCount = 20;
   alreadyGuessed = [];
 
   $("#loseMessage").hide();
@@ -64,11 +66,12 @@ function winScreen() {
   $("#winMessage").fadeIn(3000);
   rain();
   //update wins
-  document.getElementById("wins").innerHTML = "Correct: " + winCount;
+  document.getElementById("correctLetters").innerHTML = "Correct: " + letterCount;
   //update guessCount
-  document.getElementById("remaining-guesses").innerHTML = guessCount;
-  //
+  document.getElementById("remaining-guesses").innerHTML = "Remaining Guesses: "+ guessCount;
+  //update alreadyGuessed
   document.getElementById("already-guessed").innerHTML = alreadyGuessed;
+
 
   setTimeout(function() {initGame();}, 5000);
   // console.log(init);
@@ -106,7 +109,7 @@ function checkGuess() {
     $("#illustration").css({
       "background": "rgb(110, 110, 110)",
     });
-    winCount = 0;
+    letterCount = 0;
     guessCount = 20;
     startScreen();//loseScreen()
   }
@@ -169,18 +172,18 @@ function keyDetect() {
       if (currentword.includes(event.key.toLowerCase()) && !alreadyGuessed.includes(event.key.toLowerCase())) {
 
         $("." + event.key.toLowerCase()).show();
-        //add 1 to winCount
-        winCount += $("." + event.key).length;
-        console.log(winCount);
+        //add 1 to letterCount
+        letterCount += $("." + event.key).length;
+        console.log(letterCount);
         //subtract from guesses
         guessCount--;
         console.log(guessCount);
         //update array of already-guessed letters
         alreadyGuessed.push(event.key);
         //update wins
-        document.getElementById("wins").innerHTML = "Correct: " + winCount;
+        document.getElementById("correctLetters").innerHTML = "Correct: " + letterCount;
         //update guessCount
-        document.getElementById("remaining-guesses").innerHTML = guessCount;
+        document.getElementById("remaining-guesses").innerHTML = "Remaining Guesses:" + guessCount;
         //update letter Guessed
         userGuess.textContent = event.key.toLowerCase();
         //troubleshoot
@@ -194,20 +197,22 @@ function keyDetect() {
         //move this outside and put in if statement for preventing guessing the same letter again
         alreadyGuessed.push(event.key);
         //update wins
-        document.getElementById("wins").innerHTML = "Correct: " + winCount;
+        document.getElementById("correctLetters").innerHTML = "Correct: " + letterCount;
         //update guessCount
-        document.getElementById("remaining-guesses").innerHTML = guessCount;
+        document.getElementById("remaining-guesses").innerHTML = "Remaining Guesses: "+ guessCount;
         //update letter Guessed
         userGuess.textContent = event.key.toLowerCase();
         //troubleshoot
         console.log(currentword.join("") + " does not include the letter " + event.key);
       }
 
-      if (winCount === currentword.length) {
+      if (letterCount === currentword.length) {
         //======================================================================================
         // if number of wins is equal to number of letters in word, display win alert and
         // cue thunder!
         //======================================================================================
+        winCount++;
+        document.getElementById("wins").innerHTML = "Wins: "+ winCount;
         console.log("WINNING!");
         $("#illustration").css({
           "background": "rgb(110, 110, 110)",

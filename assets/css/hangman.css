@@ -45,21 +45,24 @@ body {
   z-index: 1;
   white-space: nowrap;
   clear: none;
-  margin-left: 30%;
+  margin-left: 10%;
   margin-top: 1%;
   color: white;
   display: inline-block;
   width: 35%;
 }
 
-#user-guess, #wins, #remaining-guesses, #already-guessed {
+#user-guess, #correctLetters, #remaining-guesses, #already-guessed, #wins {
   display: inline-block;
-  padding-bottom: 2%;
-  margin-bottom: 3%;
-  padding-right: 21%;
+  margin-bottom: 2%;
+  padding-right: 25%;
 }
-#wins{
-  margin-left: 18%;
+/*#wins{
+  margin-left: 5%;
+}*/
+#correctLetters{
+  /*margin-left: 18%;*/
+  visibility: hidden;
 }
 
 #instructions {
