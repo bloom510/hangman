@@ -15,6 +15,15 @@ body {
 
 a{
   color: teal;
+  -o-transition: ease-in .5s;
+-ms-transition: ease-in .5s;
+-moz-transition: ease-in .5s;
+-webkit-transition: ease-in .5s;
+transition: ease-in .5s;
+}
+
+a:hover{
+  color: #3498DB;
 }
 
 #donate{
