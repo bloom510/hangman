@@ -31,7 +31,8 @@ $("#instructions").fadeIn(3000);
   //
   document.getElementById("already-guessed").innerHTML = alreadyGuessed;
 
-document.onkeyup = setTimeout(function () {document.keyup = initGame();}, 5000);
+setTimeout(function(){ initGame(); }, 5000);
+console.log(init);
 }
 
 //Get empty divs to give data to
@@ -170,6 +171,8 @@ cue thunder!*/ /*if guesses run out, reveal word with remaining hidden letters i
 
 
 function initGame(){
+
+  document.onkeyup = function() {
  //add 1 to init when key is pressed
   init++;
 
@@ -186,6 +189,7 @@ function initGame(){
     //set init back to zero to keep in a workable range for wins or losses
     init = 0;
   }
+}
 
 
 }
