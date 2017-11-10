@@ -59,11 +59,10 @@ function winScreen() {
 
   $("#loseMessage").hide();
   $("#instructions").hide();
-  $("#illustration").hide();
+  $("#illustration").hide().fadeIn(3000);
   $("#stats").hide();
-  $("#winMessage").hide();
-  $("#illustration").fadeIn(3000);
-  $("#winMessage").fadeIn(3000);
+  $("#winMessage").hide().fadeIn(3000);;
+
   rain();
   //update wins
   document.getElementById("correctLetters").innerHTML = "Correct: " + letterCount;
@@ -71,8 +70,30 @@ function winScreen() {
   document.getElementById("remaining-guesses").innerHTML = "Remaining Guesses: "+ guessCount;
   //update alreadyGuessed
   document.getElementById("already-guessed").innerHTML = alreadyGuessed;
+  setTimeout(function() {initGame();}, 5000);
+  // console.log(init);
+}
 
+function loseScreen() {
 
+  letterCount = 0;
+  guessCount = 20;
+  alreadyGuessed = [];
+  $(".letters:hidden").css({
+    "color": "red",
+  }).show();
+  $("#loseMessage").show();
+  $("#instructions").hide();
+  $("#illustration").hide().fadeIn(3000);
+  $("#stats").hide();
+  $("#winMessage").hide();
+  rain();
+  //update wins
+  document.getElementById("correctLetters").innerHTML = "Correct: " + letterCount;
+  //update guessCount
+  document.getElementById("remaining-guesses").innerHTML = "Remaining Guesses: "+ guessCount;
+  //update alreadyGuessed
+  document.getElementById("already-guessed").innerHTML = alreadyGuessed;
   setTimeout(function() {initGame();}, 5000);
   // console.log(init);
 }
@@ -106,12 +127,13 @@ function checkGuess() {
   if (guessCount === 0) {
     alreadyGuessed = [];
     console.log(alreadyGuessed);
+
     $("#illustration").css({
       "background": "rgb(110, 110, 110)",
     });
     letterCount = 0;
     guessCount = 20;
-    startScreen();//loseScreen()
+    loseScreen();//loseScreen()
   }
 
 
@@ -159,6 +181,7 @@ function keyDetect() {
       This function is called and executed later in keyDetect()
       only if the key pressed is a letter.*/
     function evalWord() {
+
       //Get empty divs to give data to
       var userGuess = document.getElementById("user-guess");
       //converts key pressed to lowercase for evaluation
@@ -170,7 +193,9 @@ function keyDetect() {
       // If array currentword contains the key pressed and not already guessed
       // Else, do more stuff
       if (currentword.includes(event.key.toLowerCase()) && !alreadyGuessed.includes(event.key.toLowerCase())) {
-
+        $(".letters").css({
+          "color": "white",
+        });
         $("." + event.key.toLowerCase()).show();
         //add 1 to letterCount
         letterCount += $("." + event.key).length;
