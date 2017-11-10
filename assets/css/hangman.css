@@ -71,7 +71,7 @@ body {
   z-index: 1;
   color: white;
 }
-#loseMessage{
+#loseMessage, #winMessage{
   padding-left: 6%;
   padding-right: 6%;
   position: relative;

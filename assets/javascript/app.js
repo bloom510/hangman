@@ -17,6 +17,7 @@ function startScreen() {
 
   $(".letters").hide();
   $(".box").hide();
+  $("#winMessage").hide();
   $("#loseMessage").hide();
   $("#instructions").hide();
   $("#illustration").hide();
@@ -35,6 +36,34 @@ function startScreen() {
   // console.log(init);
 }
 
+function winScreen() {
+
+  $(".letters").hide();
+  $(".box").hide();
+  //Number of guesses
+  guessCount = 20;
+  //Wins
+  winCount = 0;
+  alreadyGuessed = [];
+
+  $("#loseMessage").hide();
+  $("#instructions").hide();
+  $("#illustration").hide();
+  $("#stats").hide();
+  $("#winMessage").hide();
+  $("#illustration").fadeIn(3000);
+  $("#winMessage").fadeIn(3000);
+  rain();
+  //update wins
+  document.getElementById("wins").innerHTML = "Correct: " + winCount;
+  //update guessCount
+  document.getElementById("remaining-guesses").innerHTML = guessCount;
+  //
+  document.getElementById("already-guessed").innerHTML = alreadyGuessed;
+
+  setTimeout(function() {initGame();}, 5000);
+  // console.log(init);
+}
 //Number of guesses
 var guessCount = 20;
 //Wins
@@ -89,12 +118,15 @@ function checkGuess() {
 var init = 0;
 
 function initGame() {
+  wordGen();
 //Good example of closure. 3 levels of scope. 1)global, 2) outer, 3) inner.
   document.onkeyup = function() {
     //add 1 to init when key is pressed
     init++;
     //if init is more than or equal to 1, hide instructions and initialize game
     if (init >= 1) {
+      $("#winMessage").hide();
+      $("#loseMessage").hide();
       $("#instructions").hide();
       $("#illustration").css({
         "background": "none",
@@ -177,7 +209,7 @@ function keyDetect() {
         $("#illustration").css({
           "background": "rgb(110, 110, 110)",
         });
-          startScreen();
+          winScreen();
       }
 
 
@@ -212,8 +244,8 @@ function wordGen() {
 
   var dictionary = [
     "rainfall",
-    // "fragrant",
-    // "petrichor",
+    "fragrant",
+    "petrichor"
     // "rain",
     // "winter",
     // "aqua",
@@ -299,8 +331,7 @@ function wordGen() {
   //Removes commas from array and pushes wordDisplay contents to the DOM tree
   wordStage.innerHTML = wordDisplay.join("");
 
-
+  $(".letters").hide();
+  $(".box").hide();
+  
 }
-
-
-wordGen();
