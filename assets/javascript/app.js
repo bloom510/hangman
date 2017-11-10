@@ -149,7 +149,10 @@ function thunder() {
 
 function checkGuess() {
 
-  //if user runs out of guesses, reset guessed letters
+  //==========================================================================================
+  //   if guesses run out, reveal word with remaining hidden letters in red
+  //   then, reset letters, bring back and move to start screen with previous background color
+  //==========================================================================================
   if (guessCount === 1) {
     alreadyGuessed = [];
     console.log(alreadyGuessed);
@@ -197,7 +200,7 @@ function keyDetect() {
 
   //game() generates and evaluates randomly generated words
   document.onkeyup = function game() {
-  checkGuess();
+    checkGuess();
 
     /*Function evaluates answer updates the corresponding fields.
       This function is called and executed later in keyDetect()
@@ -248,11 +251,10 @@ function keyDetect() {
         console.log(currentword.join("") + " does not include the letter " + event.key);
       }
 
-      if(winCount === currentword.length){
+      if (winCount === currentword.length) {
         //======================================================================================
         // if number of wins is equal to number of letters in word, display win alert and
         // cue thunder!
-        /*if guesses run out, reveal word with remaining hidden letters in red*/
         //======================================================================================
         console.log("WINNING!");
       }
