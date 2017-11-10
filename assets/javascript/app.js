@@ -115,16 +115,17 @@ function checkGuess() {
 
 }
 //counter for game initialization
-var init = 0;
+var init = false;
 
 function initGame() {
+  currentword = [];
   wordGen();
 //Good example of closure. 3 levels of scope. 1)global, 2) outer, 3) inner.
   document.onkeyup = function() {
     //add 1 to init when key is pressed
-    init++;
+    init = true;
     //if init is more than or equal to 1, hide instructions and initialize game
-    if (init >= 1) {
+    if (init === true) {
       $("#winMessage").hide();
       $("#loseMessage").hide();
       $("#instructions").hide();
@@ -333,5 +334,5 @@ function wordGen() {
 
   $(".letters").hide();
   $(".box").hide();
-  
+
 }
