@@ -212,7 +212,7 @@ function keyDetect() {
         //update letter Guessed
         userGuess.textContent = event.key.toLowerCase();
         //troubleshoot
-        console.log(currentword.join("") + " includes the letter " + event.key);
+        // console.log(currentword.join("") + " includes the letter " + event.key);
 
       } else if (!currentword.includes(event.key.toLowerCase()) && !alreadyGuessed.includes(event.key.toLowerCase())) {
 
@@ -228,7 +228,7 @@ function keyDetect() {
         //update letter Guessed
         userGuess.textContent = event.key.toLowerCase();
         //troubleshoot
-        console.log(currentword.join("") + " does not include the letter " + event.key);
+        // console.log(currentword.join("") + " does not include the letter " + event.key);
       }
 
       if (letterCount === currentword.length) {
