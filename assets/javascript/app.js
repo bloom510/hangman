@@ -31,101 +31,20 @@ function startScreen() {
   //
   document.getElementById("already-guessed").innerHTML = alreadyGuessed;
 
-  setTimeout(function() {
-    initGame();
-  }, 5000);
-  console.log(init);
+  setTimeout(function() {initGame();}, 5000);
+  // console.log(init);
 }
 
-//Get empty divs to give data to
-var userGuess = document.getElementById("user-guess");
-//wordStage recieves HTML to render to the page for randomly generated word
-var wordStage = document.getElementById("stage");
 //Number of guesses
 var guessCount = 20;
 //Wins
 var winCount = 0;
 //Letters already guessed
 var alreadyGuessed = [];
-//Array to hold HTML iterations of each letter to be rendered on the page
-var wordDisplay = [];
 //Array which will accept randomly generated words split into 1 letter per index
 //for later evaluation against the keystroke event
 var currentword = [];
 //Collection of words for game
-var dictionary = [
-  "rainfall",
-  // "fragrant",
-  // "petrichor",
-  // "rain",
-  // "winter",
-  // "aqua",
-  // "aqueduct",
-  // "well",
-  // "basin",
-  // "blizzard",
-  // "boil",
-  // "brine",
-  // "brook",
-  // "canal",
-  // "channel",
-  // "cloudburst",
-  // "condensation",
-  // "confluence",
-  // "course",
-  // "damp",
-  // "depth",
-  // "dew",
-  // "downpour",
-  // "drain",
-  // "drenched",
-  // "drinkable",
-  // "drizzle",
-  // "drop",
-  // "effluent",
-  // "evaporation",
-  // "flood",
-  // "flow",
-  // "fluvial",
-  // "frost",
-  // "frozen",
-  // "geyser",
-  // "hail",
-  // "headwaters",
-  // "humidity",
-  // "hurricane",
-  // "hydrology",
-  // "hydropower",
-  // "ice",
-  // "crystals",
-  // "irrigation",
-  // "lake",
-  // "moisture",
-  // "monsoon",
-  // "ocean",
-  // "pond",
-  // "pool",
-  // "precipitation",
-  // "puddle",
-  // "runoff",
-  // "river",
-  // "snowfall",
-  // "snow",
-  // "spray",
-  // "sprinkler",
-  // "stream",
-  // "swamp",
-  // "tide",
-  // "typhoon",
-  // "vapor",
-  // "waterfront",
-  // "watershed",
-  // "waves",
-  // "wetlands",
-];
-
-//Stores a random word from our dictionary object inside a variable
-var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
 
 //Soothing rain background
 function rain() {
@@ -170,11 +89,10 @@ function checkGuess() {
 var init = 0;
 
 function initGame() {
-
+//Good example of closure. 3 levels of scope. 1)global, 2) outer, 3) inner.
   document.onkeyup = function() {
     //add 1 to init when key is pressed
     init++;
-
     //if init is more than or equal to 1, hide instructions and initialize game
     if (init >= 1) {
       $("#instructions").hide();
@@ -205,7 +123,8 @@ function keyDetect() {
       This function is called and executed later in keyDetect()
       only if the key pressed is a letter.*/
     function evalWord() {
-
+      //Get empty divs to give data to
+      var userGuess = document.getElementById("user-guess");
       //converts key pressed to lowercase for evaluation
       // (function() { String.fromCharCode(event.keyCode).toLowerCase()});
 
@@ -222,8 +141,7 @@ function keyDetect() {
         console.log(winCount);
         //subtract from guesses
         guessCount--;
-        //reveal that letter
-        //move this outside and put in if statement for preventing guessing the same letter again
+        //update array of already-guessed letters
         alreadyGuessed.push(event.key);
         //update wins
         document.getElementById("wins").innerHTML = "Correct: " + winCount;
@@ -256,6 +174,10 @@ function keyDetect() {
         // cue thunder!
         //======================================================================================
         console.log("WINNING!");
+        $("#illustration").css({
+          "background": "rgb(110, 110, 110)",
+        });
+          startScreen();
       }
 
 
@@ -285,7 +207,83 @@ function keyDetect() {
 //Function that generates words and processes them for
 //1) display on the DOM tree, and 2) evluation with JavaScript
 function wordGen() {
+  //Array to hold HTML iterations of each letter to be rendered on the page
+  var wordDisplay = [];
 
+  var dictionary = [
+    "rainfall",
+    // "fragrant",
+    // "petrichor",
+    // "rain",
+    // "winter",
+    // "aqua",
+    // "aqueduct",
+    // "well",
+    // "basin",
+    // "blizzard",
+    // "boil",
+    // "brine",
+    // "brook",
+    // "canal",
+    // "channel",
+    // "cloudburst",
+    // "condensation",
+    // "confluence",
+    // "course",
+    // "damp",
+    // "depth",
+    // "dew",
+    // "downpour",
+    // "drain",
+    // "drenched",
+    // "drinkable",
+    // "drizzle",
+    // "drop",
+    // "effluent",
+    // "evaporation",
+    // "flood",
+    // "flow",
+    // "fluvial",
+    // "frost",
+    // "frozen",
+    // "geyser",
+    // "hail",
+    // "headwaters",
+    // "humidity",
+    // "hurricane",
+    // "hydrology",
+    // "hydropower",
+    // "ice",
+    // "crystals",
+    // "irrigation",
+    // "lake",
+    // "moisture",
+    // "monsoon",
+    // "ocean",
+    // "pond",
+    // "pool",
+    // "precipitation",
+    // "puddle",
+    // "runoff",
+    // "river",
+    // "snowfall",
+    // "snow",
+    // "spray",
+    // "sprinkler",
+    // "stream",
+    // "swamp",
+    // "tide",
+    // "typhoon",
+    // "vapor",
+    // "waterfront",
+    // "watershed",
+    // "waves",
+    // "wetlands",
+  ];
+  //Stores a random word from our dictionary object inside a variable
+  var randWord = dictionary[Math.floor(Math.random() * dictionary.length)];
+  //wordStage recieves HTML to render to the page for randomly generated word
+  var wordStage = document.getElementById("stage");
   //Loop through the randomly generated word and do two things:
   //1. Push HTML to array wordDisplay for HTML to be rendered on the page
   //2. Convert the randomly chosen word into individual letters and store in an array called "currentword"
