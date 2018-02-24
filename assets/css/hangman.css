@@ -33,7 +33,7 @@ a:hover {
 }
 
 .container {
-    background: url("./assets/images/zenkoan1.png");
+    background: url("https://bloom510.github.io/assets/img/zenkoan1.png");
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
